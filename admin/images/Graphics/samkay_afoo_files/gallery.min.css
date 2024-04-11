@@ -1,0 +1,236 @@
+.product-detail{
+	min-height:300px;
+	background:#ecf0f1;
+	margin:70px auto;
+	width:800px;
+	padding:20px;
+	text-align:center;
+	border-radius:10px;
+	display:none;
+}
+
+.product-detail .div-left{
+	width:45%;
+	padding:10px;
+	display:inline-block;
+	vertical-align:top;
+}
+.product-detail .div-right{
+	width:45%;
+	padding:1%;
+	border-radius:3px 3px 0px 0px;
+	font-family: Tahoma, Geneva, sans-serif;
+	display:inline-block;
+	vertical-align:top;
+}
+
+.product-detail .div-right{
+	padding-top:20px;
+	display:inline-block;
+	vertical-align:top;
+	width:48%;
+	min-height:200px;
+	text-align:left;
+}
+.product-detail .div-right .title{
+	color:#00AD57;
+	font-size:10px;
+	padding:0px 0px 0px 7px;
+}
+.product-detail .div-right .text{
+	color:#666;
+	font-size:14px;
+	line-height:25px;
+	padding:5px;
+	margin-bottom:10px;
+}
+.order-div .detail .price{
+	height:40px;
+	line-height:40px;
+	padding:10px;
+}
+.product-detail .div-right .price span{
+	font-size:20px;
+	color:#00AD57;
+}
+	
+.product-detail .div-right .price .text_field{
+	background:#FFF;
+	color:#7f8c8d;
+	width:60px;
+	margin:0px 10px 0px 10px; 
+	padding:15px 5% 15px 5%;
+	border:#CCC 1px solid;
+	border-radius:5px;
+    font-family:body_text;
+	transition:all ease 0.2s;
+-webkit-transition:all ease 0.2s;
+-ms-transition:all ease 0.2s;
+-o-transition:all ease 0.2s;
+-moz-transition:all ease 0.2s;
+ -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.product-detail .div-right .btn-div{
+	text-align:right;
+	padding:30px 0px;
+}
+.product-detail .div-right .btn-div .btn{
+	margin-bottom:10px;
+	border:#FFF 1px solid;
+	background:#00AD57;
+	padding:15px;
+	min-width:120px;
+	color:#FFF;
+	border-radius:5px;
+	font-size:12px;
+	cursor:pointer;
+    font-family:body-font;
+-moz-transition:all 0.2s ease-in 0.2s;
+transition:all 0.2s ease-in 0.2s;
+-webkit-transition:all 0.2s ease-in 0.2s;
+-ms-transition:all 0.2s ease-in 0.2s;
+-o-transition:all 0.2s ease-in 0.2s;
+}
+.product-detail .div-right .btn-div .btn:hover{
+	background:#FFF;
+	color:#00AD57;
+	border:#00AD57 1px solid;
+	}
+
+.product-detail .div-right .btn-div .decline{
+	background:#666;
+}
+.product-detail .div-right .btn-div .decline:hover{
+	background:#FFF;
+	color:#666;
+	border:#666 1px solid;
+	}
+
+
+@media all and (max-width:870px){
+.product-detail{
+	width:90%;
+	padding:10px;
+}
+}
+
+@media all and (max-width:650px){
+
+.product-detail{
+	position:absolute;
+	height:90%;
+	width:90%;
+	top:5%;
+	left:5%;
+	padding:0px;
+	overflow:auto;
+	margin:0px auto;
+}
+.product-detail .div-left{
+	width:96%;
+	padding:0px;
+}
+.product-detail .div-right{
+	width:90%;
+}
+.product-detail .div-right .btn-div{
+	text-align:left;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.gallery .images{
+	position:relative;
+	height:300px;
+}
+.gallery .images>div,.gallery .images>span{
+	position:absolute;
+	display:block;
+	width:100%;
+	height:100%
+}
+.gallery .images>div{
+	opacity:0;
+	background:center no-repeat;
+	background-size: cover;
+	height:350px;
+	border-radius:10px 10px 0px 0px;
+	-webkit-transition:all .88s ease;
+	transition:all .88s ease;
+}
+.gallery .images>div.active{
+	opacity:1;
+}
+.gallery .images>span{
+	cursor:pointer;
+	width:50px;
+	color:#fff;
+	text-shadow:0 0 5px #000;
+	font-size:30px;
+	text-align:center;
+	padding-top:30%;
+}
+.gallery .images>span.right{
+	right:0px;
+}
+.gallery .thumbs{
+	margin-top:50px;
+	display:inline-block;
+	width:100%;
+	height:60px;
+	background:rgba(0,0,0,.7);
+	text-align:center;
+	cursor:pointer;
+	position:relative;
+	border-radius:0px 0px 10px 10px;
+}
+.gallery .thumbs>div{
+	box-sizing:border-box;
+	background:center no-repeat;
+	background-size:cover;
+	display:inline-block;
+	position:relative;
+	margin:4px;
+	border:3px solid transparent;
+	width:50px;
+	height:50px;
+	cursor:pointer;
+	-webkit-transition:all .88s ease;
+	transition:all .88s ease;
+}
+.gallery .thumbs>div:before{
+	content:'';
+	width:0;
+	height:0;
+	border:solid transparent;
+	border-width:0 5px 5px;
+	position:absolute;
+	left:20px;
+	top:-8px;
+	-webkit-transition:all .88s ease;
+	transition:all .88s ease;
+}
+.gallery .thumbs>div.active{
+	border-color:silver;
+}
+.gallery .thumbs>div.active:before{
+	border-bottom-color:silver;
+}

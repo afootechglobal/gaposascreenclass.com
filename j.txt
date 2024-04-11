@@ -1,0 +1,13 @@
+      
+<script src="javascript/superplaceholder.js"></script> 
+<script>
+		superplaceholder({
+			el: email,
+				sentences: [ 'Enter your Email Address', 'e.g emmex@gmail.com', 'info@pec.com.ng', 'king123@hotmail.com', 'william@gmail.com' ],
+				options: {
+				letterDelay: 80,
+				loop: true,
+				startOnFocus: false
+			}
+		});
+</script>

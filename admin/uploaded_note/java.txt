@@ -1,0 +1,2 @@
+|| (coursecode =='') || (coursename =='') || (selectstaff =='') || (selectlevel =='') || (picklevel =='') || (choosestaff =='') 
+    || (week =='') || (topic =='') || (period =='') || (summary =='')

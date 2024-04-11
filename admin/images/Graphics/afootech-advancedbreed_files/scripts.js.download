@@ -1,0 +1,319 @@
+//////////////////////////////13/8/2019////////////////////////// by Afolabi Oluwagbnega Sunday
+jQuery(document).ready(function() {
+    $.backstretch(["images/about-bg.jpg"],{duration: 4000, fade: 2000});
+	
+    });
+	
+	
+$(document).ready(function() {
+	function trim(s) {
+            return s.replace( /^\s*/, "" ).replace( /\s*$/, "" );
+        }
+$('#menu-open-link').click(function(){
+	   $('#menu-back-div, .sidenavdiv-in').animate({'margin-left':'0'},200);
+	   $('#live-chat-div').animate({'margin-left':'-100%'},400);
+	   $('#menu-list-div').animate({'margin-left':'0'},400);
+	   });
+	   
+$('.live-chat-link-div').click(function(){
+	   $('#menu-back-div, .sidenavdiv-in').animate({'margin-left':'0'},200);
+	   $('#menu-list-div').animate({'margin-left':'-100%'},400);
+	   $('#live-chat-div').animate({'margin-left':'0'},400);
+	   });
+$('.sidenavdiv-in').click(function(){
+	   $('#menu-back-div, .sidenavdiv-in').animate({'margin-left':'-100%'},200);
+	   $('#menu-list-div,#live-chat-div').animate({'margin-left':'-100%'},400);
+	   });
+		
+
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+      $(window).scroll(function() { 
+    var scrollheight = $(window).scrollTop();
+    if (scrollheight >= 100) {
+          $("#back2Top").fadeIn(300).css("display", "block");
+        } else {
+        $('#back2Top').fadeOut();
+        }
+      });
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+function scrolltodiv(divid, margintop, linkid){
+	$('html, body').animate({
+	scrollTop: $("#"+divid).offset().top - margintop}, "slow");
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+function _back_to_top(){
+		 $('#link-data-plan,#link-merchant').removeClass('active-li');
+		 $('#link-data-plan,#link-merchant').addClass('li');
+        event.preventDefault();
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+}
+
+
+
+function alert_close(){
+		$('#get-more-div, .fly-out-advert').html('').fadeOut(500);
+}
+
+
+///////////////////////login and signup from index links//////////////////////////////
+function _get_login_panel(action, check){
+		$('#get-more-div').html('<div class="ajax-loader">loading...<br><img src="images/ajax-loader.gif"/></div>').fadeIn(500);
+			var dataString ='action='+ action+'&check='+ check;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			cache: false,
+			success: function(html){$('#get-more-div').html(html);}
+			});
+}
+
+function _reset_password_link(){
+	   $('#reset-password-div').fadeIn(100);
+	   $('#user-login-div').hide();
+	$('#panel-title').html('<i class="fa fa-refresh"></i> Reset Password');
+	   };
+
+function _user_login_link(){
+	   $('#user-login-div').fadeIn(100);
+	   $('#reset-password-div').hide();
+	$('#panel-title').html('<i class="fa fa-unlock-alt"></i> Sign-In');
+	   };
+
+
+
+
+	   
+function _sign_in(){ 
+$('.success-div').hide()
+			var username = $('#username').val();
+			var password = $('#password').val();
+			if((privi!='')&&(username!='')&&(password!='')){
+				user_login(username,password)
+			}else{
+				$('#warning-div').fadeIn(500).delay(5000).fadeOut(100);
+			}
+};
+
+
+///////////////////// user login ///////////////////////////////////////////
+function user_login(username,password){
+	 var action='login_check';
+var dataString ='action='+ action+'&username='+ username + '&password='+ password;
+	$('#login-btn').html('Authenticating...');
+		document.getElementById('login-btn').disabled=true;
+	$.ajax({
+	type: "POST",
+	url: "code.php",
+	data: dataString,
+	dataType: 'json',
+	cache: false,
+	success: function(data){
+	$('#login-btn').html('<i class="fa fa-sign-in"></i> Log-In');
+	document.getElementById('login-btn').disabled=false;
+ 	var scheck = data.check;
+	if(scheck==1){
+			$('#loginform').submit();
+	}else if(scheck==2){
+		$('#warning-div').html('<div><i class="fa fa-warning (alias)"></i></div> Account Suspended<br /><span>Contact the ABCC admin for help</span>').fadeIn(500).delay(5000).fadeOut(100);
+	}else if(scheck==3){
+		$('#warning-div').html('<div><i class="fa fa-warning (alias)"></i></div> Account Is Inactive<br /><span>Contact the ABCC admin for help</span>').fadeIn(500).delay(5000).fadeOut(100);
+	}else{
+		$('#not-success-div').fadeIn(500).delay(5000).fadeOut(100);
+		}
+	}
+	});
+}
+
+
+
+//////////////////////user sent OTP on password reset////////////////////////////////////////////////////////////////	   
+function _proceed_reset_password(){
+			var email = $('#email').val();
+			if(email==''){}else{
+		$('#proceed-reset-password').html('Processing...');
+		document.getElementById('proceed-reset-password').disabled=true;
+			var action='proceed_reset_password';
+			var dataString ='action='+ action+'&email='+ email;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			dataType: 'json',
+			cache: false,
+			success: function(data){
+				var userid = data.userid
+				var scheck = data.check;
+				if(scheck==1){
+					///call this function to send password reset OTP/////////////// 
+					_send_otp_on_password_reset(scheck, email, userid);
+				}else{
+				$('#otp-status').html('The Email Address provided is invalid').fadeIn(500).delay(5000).fadeOut(100);
+				$('#proceed-reset-password').html('Proceed <i class="fa fa-long-arrow-right"></i>');
+				document.getElementById('proceed-reset-password').disabled=false;
+				}
+			}
+			});
+			}
+	   };
+
+
+//////////////////////send password reset OTP////////////////////////////////////////////////////////////////	   
+function _send_otp_on_password_reset(scheck, email, userid){
+			var action='send_password_reset_otp';
+			var dataString ='action='+ action+'&scheck='+ scheck+'&email='+ email+'&userid='+ userid;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			cache: false,
+			success: function(html){$('#sign-in-div').html(html);}
+			});
+}
+
+
+//////////////////////finish user password reset////////////////////////////////////////////////////////////////	   
+function _finish_password_reset(userid){
+			var otp = $('#otp').val();
+			var pass1 = $('#pass1').val();
+			var pass2 = $('#pass2').val();
+			if((otp=='')||(pass1=='')||(pass2=='')){
+				 //do nothing/////
+			}else if(pass1!=pass2){
+					$('#pass-status').html('Password Not Match').fadeIn(500).delay(5000).fadeOut(100);
+					$("#pass2").focus();
+					return false;
+			}else{
+		$('#finish-password-reset').html('Resetting...').fadeIn(500);
+		document.getElementById('finish-password-reset').disabled=true;
+			var action='finish_password_reset';
+			var dataString ='action='+ action+'&otp='+ otp+'&userid='+ userid+'&pass1='+ pass1;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			dataType: 'json',
+			cache: false,
+			success: function(data){
+			var scheck = data.check;
+				if(scheck==2){
+					///call this function Finish password reset/////////////// 
+					_password_reset_successful(scheck);
+				}else{
+					$('#otp-status-warning').html('<i class="fa fa-warning (alias)"></i> Incorrect OTP').fadeIn(500).delay(5000).fadeOut(100);
+				$('#finish-password-reset').html('<i class="fa fa-refresh"></i> Reset');
+		document.getElementById('finish-password-reset').disabled=false;
+				}
+			}
+			});
+			}
+}
+
+//////////////////////Finish password reset////////////////////////////////////////////////////////////////	   
+function _password_reset_successful(scheck){
+			var action='checked_otp_password_reset';
+			var dataString ='action='+ action+'&scheck='+ scheck;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			cache: false,
+			success: function(html){$('#sign-in-div').html(html);}
+			});
+}
+
+
+//////////////////////Resent OTP on signup////////////////////////////////////////////////////////////////	   
+function _resend_otp(userid){
+		$('#forgetlink').html('Sending OTP...').fadeIn(500);
+			var action='resend_otp';
+			var dataString ='action='+ action+'&userid='+ userid;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			cache: false,
+			success: function(html){
+		$('#otp-status-success').html('<i class="fa fa-check"></i> OTP Sent').fadeIn(500).delay(5000).fadeOut(100);
+		$('#forgetlink').html("Don't Get OTP? <span>Resend OTP</span>").fadeIn(500);
+			}
+			});
+}
+
+
+
+
+
+
+
+function _student_sign_in(){ 
+$('.success-div').hide()
+			var username = $('#username').val();
+			var password = $('#password').val();
+			if((username!='')&&(password!='')){
+				_student_login(username,password)
+			}else{
+				$('#warning-div').fadeIn(500).delay(5000).fadeOut(100);
+			}
+};
+
+
+///////////////////// user login ///////////////////////////////////////////
+function _student_login(username,password){
+	 var action='student_login_check';
+var dataString ='action='+ action+'&username='+ username + '&password='+ password;
+	$('#login-btn').html('Authenticating...');
+		document.getElementById('login-btn').disabled=true;
+	$.ajax({
+	type: "POST",
+	url: "code.php",
+	data: dataString,
+	dataType: 'json',
+	cache: false,
+	success: function(data){
+	$('#login-btn').html('<i class="fa fa-sign-in"></i> Log-In');
+	document.getElementById('login-btn').disabled=false;
+ 	var scheck = data.check;
+	if(scheck==1){
+			$('#loginform').submit();
+	}else{
+		_access_denied()
+		}
+	}
+	});
+}
+
+
+
+
+///////////////////////login and signup from index links//////////////////////////////
+function _access_denied(){
+		$('#get-more-div').html('<div class="ajax-loader">loading...<br><img src="images/ajax-loader.gif"/></div>').fadeIn(500);
+		var action = 'access_denied';
+			var dataString ='action='+ action;
+			$.ajax({
+			type: "POST",
+			url: "code.php",
+			data: dataString,
+			cache: false,
+			success: function(html){$('#get-more-div').html(html);}
+			});
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+if ($action == 'video-upload'){
+        $id = $_GET['id'];
+        if(isset($_POST['submitpassport']) && isset($_FILES['ImageSelector'])){
+            $stud_image = $_POST['del_image'];
+            $video_name=$_FILES['ImageSelector']['name'];
+            $tmp_name=$_FILES['ImageSelector']['tmp_name'];
+            $error=$_FILES['ImageSelector']['error'];
+            $video_size=$_FILES['ImageSelector']['size'];
+    
+            if($error== 0){
+                if($video_size > 500000){
+?>
+                 <script>
+                    alert('Sorry, Your Image is too Large')
+                    window.parent(location="registration-form.php")
+                </script>
+    <?php
+                }else{
+                    $video_extension= pathinfo($video_name, PATHINFO_EXTENSION);
+                    $video_ex_lowercase=strtolower($video_extension);
+                    $allowed_ex= array("avi", "flv", "wmv", "mov", "mp4");
+    
+                    if(in_array($video_ex_lowercase, $allowed_ex)){
+                        $new_video_name=date("Ymd").time();
+                        $video_upload_path='uploaded_videos/'.$new_video_name;
+                        move_uploaded_file($tmp_name, $video_upload_path );
+
+                      /// UPDATE THE PERIOD_TAB ///
+
+                      $staff_id_query=mysqli_query($conn, "SELECT * FROM staff_tab WHERE staff_id='$id'");
+                      $count_staff_id=mysqli_num_rows($staff_id_query);
+              
+                      if ($count_staff_id > 0){
+                    mysqli_query($conn, "UPDATE staff_tab SET passport='$new_video_name' WHERE staff_id='$id'");
+                      }else{
+                        mysqli_query($conn, "UPDATE student_tab SET passport='$new_video_name' WHERE student_id='$id'");
+                      }
+    ?>
+                <script>
+                    window.parent(location="../action-successful.php")
+                </script>
+    <?php
+                    }else{
+    ?>
+                <script>
+                    alert('Image file not allowed');
+                    window.parent(location="./index.php")
+                </script>
+    <?php
+                    }
+                }
+            }else{
+                
+    ?>
+                <script>
+                    alert('Unknown Error Occured!!!')
+                    window.parent(location="./staff-registration.php")
+                </script>
+    <?php
+            }
+    
+        }else{
+    ?>
+            <script>
+                alert('known Error Occured!!!')
+                window.parent(location="../staff-registration.php")
+            </script>
+    <?php
+        }
+    ?>
+
+        <script>
+            alert('semi known Error Occured!!!')
+            window.parent(location="../action-successful.php");
+        </script>
+<?php
+    }
+?>

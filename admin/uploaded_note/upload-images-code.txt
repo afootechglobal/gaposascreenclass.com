@@ -1,0 +1,61 @@
+if  ($action=='update_member_profile'){ 
+	
+
+  		 $member_id=$_GET['member_id'];
+
+		$uploadfile=$_FILES['uploadfile']['name'];
+					
+		$datetime=date("Ymdhis");	
+		$allowedExts = array("jpg", "jpeg", "JPEG", "JPG", "gif", "png");
+		$extension = pathinfo($_FILES['uploadfile']['name'], PATHINFO_EXTENSION);
+		if (in_array($extension, $allowedExts)){				  
+			$uploadfile = $datetime.'_'.$uploadfile;
+		  move_uploaded_file($_FILES["uploadfile"]["tmp_name"],"../uploaded_images/".$uploadfile);
+		  $tempname = $_FILES["uploadfile"]["tmp_name"];
+		 
+	mysqli_query($conn,"UPDATE `registration_tab` SET 
+	`firstname`='$firstname', `middlename`='$middlename', `lastname`='$lastname', `emailaddress`='$emailaddress', `phonenumber`='$phonenumber',
+`gender`='$gender', `country`='$country', `city`='$city', `maritalstatus`='$maritalstatus', `residentialaddress`='$residentialaddress',`image`='$uploadfile', `nkifirstname`='$nkifirstname', `nkimiddlename`='$nkimiddlename',
+`nkilastname`='$nkilastname', `nkiemailaddress`='$nkiemailaddress', `nkiphonenumber`='$nkiphonenumber', `nkigender`='$nkigender', `nkicountry`='$nkicountry', `nkicity`='$nkicity', `nkimaritalstatus`='$nkimaritalstatus', 
+`nkiresidentialaddress`='$nkiresidentialaddress' WHERE `member_id`='$member_id'") or die ('cannot update');
+
+	} 
+?>
+	<script>
+			
+			window.parent(location="../view-list.php");
+	</script>
+<?php
+ 
+}                           
+?>
+
+
+
+
+
+
+
+
+
+
+
+			<div class="div-module  img-div-module">
+				<label>							
+				<?php if ($member_image==''){?>
+					<div class="img-div"><img src="images/profile-pic.png" id="profileDisplay" alt="profile-pic"></div>
+                <?php 
+                }else{?>
+                	<div class="img-div"><img src="uploaded_images/<?php echo $member_image ?>" id="profileDisplay"/></div>
+                <?php } ?>
+				<input type="file"  class="browse-file" name="uploadfile" onchange="displayImage(this)" id="uploadfile" accept=".jpg" />
+				</label>
+
+
+			
+
+
+
+
+				
+			</div>
